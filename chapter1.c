@@ -1,3 +1,6 @@
+// exercise 1-13 1-14
+// 输出单词的水平和竖直直方图
+
 #include<stdio.h>
 #define MAXLENGTH 10 //单词最大长度
 #define IN 1
@@ -73,3 +76,27 @@ printf("-----------------------------------\n");
     printf("\n");
   }
 }
+
+
+// exercise 1-15
+// 将 1.2 的温度转换改为函数调用
+#include<stdio.h>
+float temperatureTrans(float);
+
+int main() {
+    float fahr;
+    float upper, lower,step;
+    upper = 300;
+    lower = 0;
+    step = 20;
+    fahr = 0;
+    while(fahr <= upper) {
+        printf("%3.0f\t%6.1f\n", fahr, temperatureTrans(fahr));
+        fahr += step;
+    }
+}
+
+float temperatureTrans(float fahr) {
+    return (5.0/9.0) * (fahr - 32.0);
+}
+
