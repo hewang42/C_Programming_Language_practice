@@ -100,3 +100,111 @@ float temperatureTrans(float fahr) {
     return (5.0/9.0) * (fahr - 32.0);
 }
 
+// exercise 1-16
+// 修改打印最长文本行的程序，使其可以打印任意长度的输入行的长度，并尽可能多地打印文本。
+
+#include<stdio.h>
+#define MAXLINE 1000
+
+int getLine(char[], int);
+void copy(char[], char[]);
+
+int main() {
+    int len; // 当前行长度
+    int max; // 最大行长度
+    char line[MAXLINE]; // 当前行内容
+    char longest[MAXLINE]; // 最大行内容
+
+    max = 0;
+
+    while((len = getLine(line, MAXLINE)) > 0) {
+        printf("长度为 %d, 内容为 %s", len, line);
+        if (len > max) {
+            max = len;
+            copy(longest, line);
+        }
+    }
+    if (max > 0)
+        printf("%s", longest);
+    return 0;
+}
+
+int getLine(char line[], int lim) {
+    int i, c;
+    
+    for (i = 0; i < lim - 2 && (c = getchar()) != EOF && c != '\n'; i++)
+    {
+        line[i] = c;
+    }
+    if (c == '\n')
+    {
+        line[i] = c;
+        i++;
+    }
+    line[i] = '\0';
+    return i;    
+}
+
+void copy(char to[], char from[]) {
+    int i = 0;
+
+    while((to[i] = from[i]) != '\0')
+        i++;
+}
+
+// exercise 1-17
+// 编写一个程序，打印长度大于80个字符的所有输入行。
+#include<stdio.h>
+#define MAXLINE 1000
+#define MAXINPUT 100 // 最多输入多少行
+#define LENGTHOVER 80
+
+int getLine(char[], int);
+void copy(char[], char[]);
+
+int main() {
+    int len; // 当前行长度
+    char line[MAXLINE]; // 当前行内容
+    char lineOver80[MAXINPUT][MAXLINE]; // 存大于 80 的输入
+    int inputOverCount80 = 0; // 大于 80 的行数量
+
+    while((len = getLine(line, MAXLINE)) > 0 && inputOverCount80 < MAXINPUT) {       
+            if (len > LENGTHOVER) {
+                copy(lineOver80[inputOverCount80], line);
+                inputOverCount80++;
+            }
+    }
+    // 将lineOver80 没用完的空间填充成 '\0',方便判断不输出
+    for(int i = inputOverCount80 + 1; i < MAXINPUT; i++) {
+        lineOver80[i][0] = '\0';
+    }
+
+    printf("-----------------\n");
+    for(int i = 0; i < MAXINPUT && lineOver80[i][0] != '\0'; i++) {
+        printf("%s", lineOver80[i]);
+    }
+    return 0;
+}
+
+int getLine(char line[], int lim) {
+    int i, c;
+    
+    for (i = 0; i < lim - 2 && (c = getchar()) != EOF && c != '\n'; i++)
+    {
+        line[i] = c;
+    }
+    if (c == '\n')
+    {
+        line[i] = c;
+        i++;
+    }
+    line[i] = '\0';
+    return i;    
+}
+
+void copy(char to[], char from[]) {
+    int i = 0;
+
+    while((to[i] = from[i]) != '\0')
+        i++;
+}
