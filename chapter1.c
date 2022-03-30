@@ -156,7 +156,7 @@ void copy(char to[], char from[]) {
 // 编写一个程序，打印长度大于80个字符的所有输入行。
 #include<stdio.h>
 #define MAXLINE 1000
-#define MAXINPUT 100 // 最多输入多少行
+#define MAXINPUT 100 // 最多输入多少大于 80 的行
 #define LENGTHOVER 80
 
 int getLine(char[], int);
@@ -207,4 +207,103 @@ void copy(char to[], char from[]) {
 
     while((to[i] = from[i]) != '\0')
         i++;
+}
+
+// exercise 1-18
+// 删掉末尾的 空格 和 tab, 删掉空行
+
+#include<stdio.h>
+#define MAXLINE 1000
+
+
+int getLine(char[], int);
+void copy(char[], char[]);
+
+int main() {
+    int len; // 当前行长度
+    char line[MAXLINE]; // 当前行内容
+    while ((len = getLine(line, MAXLINE)) > 0) {
+        // len > 1 代表有内容， = 1 的话代表只有 '\n' 为空行
+        if (len > 1) {
+            printf("此行长度: %d\n", len);
+            printf("此行内容: %s", line);
+        } else if (len == 1) {
+            continue;
+        }
+        
+    }
+}
+
+int getLine(char s[], int lim) {
+    int i, c;
+    for (i = 0; i < lim-2 && (c = getchar()) != EOF && c != '\n'; i++) {
+        s[i] = c;
+    }
+    // 倒着循环，把尾部的 ' ' 和 '\t' 去掉
+    for (int j = i - 1; j >= 0; j--) {
+        if (s[j] == ' ' || s[j] == '\t') {
+            s[j] = '\0';
+            i--;
+        } else {
+            break;
+        }
+    }
+
+    if (c == '\n') {
+        s[i] = c;
+        i++;
+    }
+    s[i] = '\0';
+    return i;
+}
+
+// exercise 1-19
+#include<stdio.h>
+
+#define MAXLINE 1000
+
+
+int getLine(char[], int);
+char * reverse(char[]);
+
+int main () {
+    int len;
+    char line[MAXLINE];
+
+    while((len = getLine(line, MAXLINE)) > 0) {
+        printf("%s", reverse(line));
+    }
+}
+
+int getLine(char s[], int lim) {
+    int i, c;
+    for(i = 0; i < lim - 2 && (c = getchar()) != EOF && c != '\n'; i++) {
+        s[i] = c;
+    }
+    if (c == '\n') {
+        s[i] = c;
+        i++;
+    }
+    s[i] = '\0';
+    return i;
+}
+
+char * reverse(char from[]) {
+    int i;
+    char to[MAXLINE];
+
+    while(from[i] != '\n') {
+        if (i == 0) {
+            to[0] = from[0];
+        } else {
+                for(int j = 0; j < i; j++) {
+                to[j + 1] = to[j];
+            }
+            to[0] = from[i];
+        }
+
+        i++;
+    }
+
+    return to;
 }
