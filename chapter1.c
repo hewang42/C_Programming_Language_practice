@@ -258,20 +258,22 @@ int getLine(char s[], int lim) {
 }
 
 // exercise 1-19
+// 颠倒输入行
+// 感觉方法有点没章法
 #include<stdio.h>
 
 #define MAXLINE 1000
 
 
 int getLine(char[], int);
-char * reverse(char[]);
+void reverse(char[]);
 
 int main () {
     int len;
     char line[MAXLINE];
 
     while((len = getLine(line, MAXLINE)) > 0) {
-        printf("%s", reverse(line));
+        reverse(line);
     }
 }
 
@@ -288,22 +290,25 @@ int getLine(char s[], int lim) {
     return i;
 }
 
-char * reverse(char from[]) {
+void reverse(char from[]) {
     int i;
     char to[MAXLINE];
-
-    while(from[i] != '\n') {
-        if (i == 0) {
-            to[0] = from[0];
-        } else {
-                for(int j = 0; j < i; j++) {
-                to[j + 1] = to[j];
+    i = 0;
+    if(from[0] != '\n') {
+            while(from[i] != '\n') {
+            if (i == 0) {
+                to[0] = from[0];
+            } else {
+                    for(int j = i; j > 0; j--) {
+                    to[j] = to[j - 1];
+                }
+                to[0] = from[i];
             }
-            to[0] = from[i];
+
+            i++;
         }
-
-        i++;
+        to[i] = '\n';
+        to[i+1] = '\0';
+        printf("%s", to);
     }
-
-    return to;
 }
